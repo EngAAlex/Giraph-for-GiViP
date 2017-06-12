@@ -1,3 +1,9 @@
+Patched version of Hadoop that generates binary files to be read by the GiViP parser.
+
+Original Giraph Readme follows.
+
+##########################################
+
 Giraph : Large-scale graph processing on Hadoop
 
 Web and online social graphs have been rapidly growing in size and
