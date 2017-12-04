@@ -1,15 +1,17 @@
 /**
  * 
  */
-package org.apache.giraph.profiler;
+package org.apache.giraph.givip.profiler;
 
-import com.unipg.profilercommon.protoutils.HierarchyProtoBook.SingleWorkerTreeHierarchy;
-import com.unipg.profilercommon.protoutils.HierarchyProtoBook.WorkerHierarchy;
+import java.util.HashSet;
+
 import org.apache.giraph.worker.WorkerInfo;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.net.Node;
 
 import com.google.protobuf.GeneratedMessage;
+import com.unipg.givip.common.protoutils.HierarchyProtoBook.SingleWorkerTreeHierarchy;
+import com.unipg.givip.common.protoutils.HierarchyProtoBook.WorkerHierarchy;
 
 /**
  * @author maria
@@ -22,6 +24,8 @@ public class HierarchyWrapper extends Writer{
   private String jobId;
   private String fileName = "JobHierarchy";
   private String directory = "profiler";
+  
+  private HashSet<String> hostnames; 
 
   public HierarchyWrapper(String jobId){
     super();
@@ -34,11 +38,15 @@ public class HierarchyWrapper extends Writer{
     this.workerHierarchyBook = WorkerHierarchy.newBuilder();
     this.singleWorkerHierarchyBuilder = SingleWorkerTreeHierarchy.newBuilder();
     this.jobId = jobId;
+    this.hostnames = new HashSet<String>();
     
   }
 
     public void saveNodeHierarchy(Node node, WorkerInfo winfo){
       String hostName = node.getName();
+      
+      hostnames.add(hostName);
+      
       String rack = node.getNetworkLocation();
       this.singleWorkerHierarchyBuilder.setHostName(hostName);
       this.singleWorkerHierarchyBuilder.setRack(rack);
@@ -48,7 +56,7 @@ public class HierarchyWrapper extends Writer{
   
     }
 
-    public GeneratedMessage generateMessageToWrite(){
+    public GeneratedMessage generateRecordToWrite(){
       return this.workerHierarchyBook.build();
     }
     
@@ -66,6 +74,11 @@ public class HierarchyWrapper extends Writer{
     public int countMessages(){
       return this.workerHierarchyBook.build().getSingleWorkerTreeHierarchyCount();
     }
+
+	public HashSet<String> getHostnames() {
+		return hostnames;
+	}
+    
 
 }
 

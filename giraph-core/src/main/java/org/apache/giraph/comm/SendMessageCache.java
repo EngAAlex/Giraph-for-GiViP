@@ -29,7 +29,7 @@ import org.apache.giraph.conf.ImmutableClassesGiraphConfiguration;
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.partition.PartitionOwner;
-import org.apache.giraph.profiler.MessagesSniffer;
+import org.apache.giraph.givip.profiler.MessagesSniffer;
 import org.apache.giraph.utils.VertexIdMessages;
 import org.apache.giraph.utils.ByteArrayVertexIdMessages;
 import org.apache.giraph.utils.PairList;
@@ -207,7 +207,7 @@ public class SendMessageCache<I extends WritableComparable, M extends Writable>
       try {
         this.msgSniffer.newExchangedMessage(
           workerTaskSourceId, workerTaskDestId, exchangedMessages,writableRequest.getSerializedSize(), isInternal);
-      } catch (Exception e) {
+      } catch (IOException e) {
         e.printStackTrace();
       }      
     }

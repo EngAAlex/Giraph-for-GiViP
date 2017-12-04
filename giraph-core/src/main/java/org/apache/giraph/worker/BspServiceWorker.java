@@ -22,6 +22,7 @@ import java.io.DataInputStream;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -86,8 +87,9 @@ import org.apache.giraph.partition.PartitionOwner;
 import org.apache.giraph.partition.PartitionStats;
 import org.apache.giraph.partition.PartitionStore;
 import org.apache.giraph.partition.WorkerGraphPartitioner;
-import org.apache.giraph.profiler.ExecutedSuperstepWorkerInfo;
-import org.apache.giraph.profiler.MessagesSniffer;
+import org.apache.giraph.givip.profiler.ExecutedSuperstepWorkerInfo;
+import org.apache.giraph.givip.profiler.LatenciesWrapper;
+import org.apache.giraph.givip.profiler.MessagesSniffer;
 import org.apache.giraph.utils.CallableFactory;
 import org.apache.giraph.utils.CheckpointingUtils;
 import org.apache.giraph.utils.JMapHistoDumper;
@@ -121,6 +123,7 @@ import org.json.JSONObject;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.unipg.givip.common.icmp.Pinger;
 
 /**
  * ZooKeeper-based implementation of {@link CentralizedServiceWorker}.
@@ -190,6 +193,11 @@ public class BspServiceWorker<I extends WritableComparable,
   private final MessagesSniffer messagesSniffer;
   /** ExecutedSuperstepWorkerInfo */
   private final ExecutedSuperstepWorkerInfo superstepWorkerInfo;
+  /** LatenciesBook */
+  private final LatenciesWrapper lWrapper;
+  /** My hostname */
+  private final String thisHostName = InetAddress.getLocalHost().getHostName();
+  
   /**
    * Constructor for setting up the worker.
    *
@@ -223,6 +231,7 @@ public class BspServiceWorker<I extends WritableComparable,
     //Create MessageSniffer and ExecutedSuperstepWorkerInfo instances for this worker
     this.messagesSniffer=new MessagesSniffer(workerInfo, this.getJobId());
     this.superstepWorkerInfo = new ExecutedSuperstepWorkerInfo(workerInfo, this.getJobId());
+    this.lWrapper = new LatenciesWrapper(workerInfo, this.getJobId());
     
     workerClient = new NettyWorkerClient<I, V, E>(context, conf, this,
         graphTaskManager.createUncaughtExceptionHandler());
@@ -901,11 +910,12 @@ public class BspServiceWorker<I extends WritableComparable,
     getGraphTaskManager().notifyFinishedCommunication();
     
     //ADDED CODE
-    // Write to HDFS all files related to exchanged messages in current superstep
+    // Write on local fs all files related to exchanged messages in current superstep
     this.messagesSniffer.updateSuperstep(this.getSuperstep());
-    LOG.info("Writing down messages");
+    if(LOG.isInfoEnabled())
+    	LOG.info("Writing down messages");
     this.messagesSniffer.localWrite();
-    LOG.info("Messages wrote");
+    //	LOG.info("Messages wrote");
     //    this.messagesSniffer.writeToHDFS();
 
     long workerSentMessages = 0;
@@ -916,6 +926,28 @@ public class BspServiceWorker<I extends WritableComparable,
       workerSentMessageBytes += partitionStats.getMessageBytesSentCount();
       localVertices += partitionStats.getVertexCount();     
     }
+    
+    this.lWrapper.updateSuperstep(this.getSuperstep());
+    
+	for (PartitionOwner currentOwner : getPartitionOwners()) {
+		String currentHostname = currentOwner.getWorkerInfo().getHostname();
+		if(thisHostName.equals(currentHostname))
+			LOG.info("Same hostname detected");
+			//continue;
+//		else {
+			try {
+				long ping = Pinger.pingHostName(currentHostname);
+				LOG.info("Registering ping " + ping + " for " + currentHostname);
+				this.lWrapper.newExchangedMessage(currentHostname, ping);
+//			this.lWrapper.newExchangedMessage(currentHostname, 
+//									Pinger.pingHostName(currentHostname));
+			}catch(IOException ioe){
+				ioe.printStackTrace();
+			}
+//		}
+	}
+	
+	this.lWrapper.localWrite();
 
     if (getSuperstep() != INPUT_SUPERSTEP) {
       postSuperstepCallbacks();
@@ -1983,7 +2015,7 @@ else[HADOOP_NON_SECURE]*/
     return globalStats;
   }
   
-  //ADDED METHODS
+  //Get worker stats collector for final HDFS writeout
   
   public MessagesSniffer getMessagesSniffer() {
     return this.messagesSniffer;
@@ -1992,5 +2024,11 @@ else[HADOOP_NON_SECURE]*/
   public ExecutedSuperstepWorkerInfo getSuperstepInfo() {
     return this.superstepWorkerInfo;
   }
+  
+  public LatenciesWrapper getLatenciesWrapper() {
+	    return this.lWrapper;
+	  }
+  
+  
   
 }

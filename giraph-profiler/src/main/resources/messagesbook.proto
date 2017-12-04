@@ -1,0 +1,17 @@
+package Protobuf;
+
+option java_package = "com.message";
+option java_outer_classname = "MessagesProtoBook";
+
+message ExchangedMessage {
+  required int32 worker_source_id = 1;
+  required int32 worker_dest_id = 2;
+  optional int32 messages_number = 3;
+  optional double messages_byte_size = 4;
+  optional bool is_internal_msg= 5 [default=false];
+
+}
+
+message MessagesBook {
+  repeated ExchangedMessage exchange_message = 1;
+}

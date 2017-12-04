@@ -1,4 +1,4 @@
-package org.apache.giraph.profiler;
+package org.apache.giraph.givip.profiler;
 /**
  * 
  */
@@ -26,11 +26,12 @@ public class Copier {
 
     try {
       fs = FileSystem.get(conf);
+//      dst = "/";
       dst = fs.getHomeDirectory()+ Path.SEPARATOR 
-          +"profiler" +Path.SEPARATOR 
-          + jobId + Path.SEPARATOR
-          + "WorkerData" + Path.SEPARATOR;
-      FileSystem.mkdirs(fs, new Path(dst), FsPermission.getDirDefault());
+          +"profiler" + Path.SEPARATOR 
+          + jobId + Path.SEPARATOR;
+//          + "WorkerData" + Path.SEPARATOR;
+      FileSystem.mkdirs(fs, new Path(dst), FsPermission.getDefault());
     } catch (IOException e) {
       e.printStackTrace();
     }

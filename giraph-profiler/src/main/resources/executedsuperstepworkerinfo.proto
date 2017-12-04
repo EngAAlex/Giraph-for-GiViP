@@ -1,0 +1,26 @@
+package Protobuf;
+
+option java_package = "com.message";
+option java_outer_classname = "ExecutedSuperstepWorkerInfoProto";
+
+
+message ExecSuperstepWorkerInfo{
+
+  required int32 worker = 1;
+
+  message SuperstepInfo {
+  optional string computationName = 1 [default = 'UNKNOWN'];
+  required sint64 superstepIndex  = 2;
+  required double computationSecs = 3;
+  optional double gcLengthMillis = 4; 
+  optional double waitingTimeMillis = 5;
+  optional sint64 processedVertices = 6;
+  optional sint64 nOfPartitions = 7;
+  }
+  
+  repeated SuperstepInfo superstepInfo = 2;
+  
+}
+  
+  
+  

@@ -1,13 +1,13 @@
-package org.apache.giraph.profiler;
+package org.apache.giraph.givip.profiler;
 
 import java.io.IOException;
 
-import com.unipg.profilercommon.protoutils.MessagesProtoBook.ExchangedMessage;
-import com.unipg.profilercommon.protoutils.MessagesProtoBook.MessagesBook;
 import org.apache.giraph.worker.WorkerInfo;
 import org.apache.hadoop.fs.Path;
 
 import com.google.protobuf.GeneratedMessage;
+import com.unipg.givip.common.protoutils.MessagesProtoBook.ExchangedMessage;
+import com.unipg.givip.common.protoutils.MessagesProtoBook.MessagesBook;
 
 /**
  * @author maria
@@ -51,7 +51,7 @@ public class MessagesSniffer extends Writer{
     this.exchangedMessages.setMessagesNumber(messagesNumber);
     this.exchangedMessages.setMessagesByteSize(messageSize);
 
-    //Add an singleExchangedMessage between
+    //Add a singleExchangedMessage 
     this.messagesBook.addExchangeMessage(this.exchangedMessages.build());
   }
 
@@ -59,7 +59,7 @@ public class MessagesSniffer extends Writer{
     this.currentSuperstep = superstep;
   }
     
-  public GeneratedMessage generateMessageToWrite(){
+  public GeneratedMessage generateRecordToWrite(){
     return this.messagesBook.build();
   }
   
@@ -67,10 +67,13 @@ public class MessagesSniffer extends Writer{
     return 
         this.directory + Path.SEPARATOR  
         + this.jobId + Path.SEPARATOR + "WorkerData"+ Path.SEPARATOR
+        +"MessagesData" + Path.SEPARATOR
         +"WorkerN-"+this.worker.getTaskId() + Path.SEPARATOR
         +this.fileName
         +"SuperstepN-" + this.currentSuperstep;
   }
+  
+  
   
   public void clearMessages(){
     this.messagesBook.clear();

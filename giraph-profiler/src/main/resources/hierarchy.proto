@@ -1,0 +1,13 @@
+package Protobuf;
+
+option java_package = "com.message";
+option java_outer_classname = "HierarchyProtoBook";
+
+message SingleWorkerTreeHierarchy	 {
+  required int32 worker = 1;
+  required string rack = 2;
+  required string hostName = 3;
+}
+message WorkerHierarchy {
+  repeated SingleWorkerTreeHierarchy singleWorkerTreeHierarchy = 1;
+}

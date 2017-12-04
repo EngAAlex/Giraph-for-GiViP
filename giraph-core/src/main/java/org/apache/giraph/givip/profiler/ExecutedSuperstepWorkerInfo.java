@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.apache.giraph.profiler;
+package org.apache.giraph.givip.profiler;
 
 import com.google.protobuf.GeneratedMessage;
-import com.unipg.profilercommon.protoutils.ExecutedSuperstepWorkerInfoProto;
-import com.unipg.profilercommon.protoutils.ExecutedSuperstepWorkerInfoProto.ExecSuperstepWorkerInfo.SuperstepInfo;
+import com.unipg.givip.common.protoutils.ExecutedSuperstepWorkerInfoProto;
+import com.unipg.givip.common.protoutils.ExecutedSuperstepWorkerInfoProto.ExecSuperstepWorkerInfo.SuperstepInfo;
 
 import java.io.IOException;
 
@@ -66,7 +66,7 @@ public class ExecutedSuperstepWorkerInfo extends Writer {
    * @see org.apache.giraph.profiler.Writer#generateMessageToWrite()
    */
   @Override
-  public GeneratedMessage generateMessageToWrite() {
+  public GeneratedMessage generateRecordToWrite() {
     return this.infoBuilder.build();
   }
 

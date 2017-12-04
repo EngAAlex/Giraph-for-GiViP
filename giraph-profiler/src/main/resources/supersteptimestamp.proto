@@ -1,0 +1,12 @@
+package Protobuf;
+
+option java_package = "com.message";
+option java_outer_classname = "SuperstepProtoInfo";
+
+message Superstep {
+  required sint64 numero = 1;
+  required double duration = 2;
+}
+message SuperstepsInfo {
+  repeated Superstep superstep = 1;
+}

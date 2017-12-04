@@ -51,7 +51,7 @@ import org.apache.giraph.partition.Partition;
 import org.apache.giraph.partition.PartitionOwner;
 import org.apache.giraph.partition.PartitionStats;
 import org.apache.giraph.partition.PartitionStore;
-import org.apache.giraph.profiler.Copier;
+import org.apache.giraph.givip.profiler.Copier;
 import org.apache.giraph.scripting.ScriptLoader;
 import org.apache.giraph.utils.CallableFactory;
 import org.apache.giraph.utils.MemoryUtils;
@@ -367,9 +367,10 @@ public class GraphTaskManager<I extends WritableComparable, V extends Writable,
         jobId = serviceWorker.getMessagesSniffer().jobId;        
         localFilePath = (System.getProperty("user.home") + Path.SEPARATOR 
             + "profiler" + Path.SEPARATOR 
-            + this.serviceWorker.getMessagesSniffer().jobId + Path.SEPARATOR
-            +"WorkerData" + Path.SEPARATOR + "WorkerN-" 
-            + this.serviceWorker.getWorkerInfo().getTaskId() + Path.SEPARATOR);  
+            + this.serviceWorker.getMessagesSniffer().jobId + Path.SEPARATOR);
+            /*+"WorkerData" + Path.SEPARATOR);
+            + "WorkerN-" 
+            + this.serviceWorker.getWorkerInfo().getTaskId() + Path.SEPARATOR);*/  
       Copier.copyFromLocalToHDFS(getConf(), localFilePath, jobId);
     
     for (WorkerObserver obs : serviceWorker.getWorkerObservers()) {

@@ -423,15 +423,6 @@ under the License.
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.apache.giraph</groupId>
-      <artifactId>giraph-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.giraph</groupId>
-      <artifactId>giraph-core</artifactId>
-      <type>test-jar</type>
-    </dependency>
 
     <!-- runtime dependency -->
     <dependency>
@@ -451,5 +442,13 @@ under the License.
       <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
- </dependencies>
+    <dependency>
+    	<groupId>org.apache.giraph</groupId>
+    	<artifactId>giraph-core</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>com.unipg</groupId>
+    	<artifactId>givip-common</artifactId>
+    </dependency>
+  </dependencies>
 </project>

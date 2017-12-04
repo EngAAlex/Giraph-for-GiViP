@@ -1,14 +1,14 @@
 /**
  * 
  */
-package org.apache.giraph.profiler;
+package org.apache.giraph.givip.profiler;
 
 
-import com.unipg.profilercommon.protoutils.SuperstepProtoInfo.Superstep;
-import com.unipg.profilercommon.protoutils.SuperstepProtoInfo.SuperstepsInfo;
 import org.apache.hadoop.fs.Path;
 
 import com.google.protobuf.GeneratedMessage;
+import com.unipg.givip.common.protoutils.SuperstepProtoInfo.Superstep;
+import com.unipg.givip.common.protoutils.SuperstepProtoInfo.SuperstepsInfo;
 
 /**
  * @author maria
@@ -35,7 +35,7 @@ public class SuperstepInfoCatcher extends Writer{
     this.jobSuperstepsInfoBuilder.addSuperstep(superstepBuilder.build());
   }
   
-  public GeneratedMessage generateMessageToWrite(){
+  public GeneratedMessage generateRecordToWrite(){
     return this.jobSuperstepsInfoBuilder.build();
   }
   

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.apache.giraph.profiler;
+package org.apache.giraph.givip.profiler;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,6 +14,7 @@ import org.apache.giraph.utils.io.AsyncHDFSWriteService;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 
+import com.google.protobuf.AbstractMessageLite;
 import com.google.protobuf.GeneratedMessage;
 
 /**
@@ -34,7 +35,7 @@ public abstract class Writer {
 		}
 	}
 
-	public abstract GeneratedMessage generateMessageToWrite();
+	public abstract AbstractMessageLite generateRecordToWrite();
 
 	/**
 	 * @return Path where the concrete class writes the file in HDFS
@@ -78,7 +79,7 @@ public abstract class Writer {
 			if(output != null){
 				try {
 
-					this.generateMessageToWrite().writeTo(output);
+					this.generateRecordToWrite().writeTo(output);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -107,7 +108,7 @@ public abstract class Writer {
 		// Write data in HDFS file
 		//      if (this.countMessage() > 0){
 		AsyncHDFSWriteService.writeToHDFS(
-				this.generateMessageToWrite(), fileSystem, this.generateFullPath());
+				this.generateRecordToWrite(), fileSystem, this.generateFullPath());
 		//        }
 		// Clears from all contents 
 		this.clearMessages();

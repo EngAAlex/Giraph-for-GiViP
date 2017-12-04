@@ -27,6 +27,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
 
+import com.google.protobuf.AbstractMessageLite;
 import com.google.protobuf.GeneratedMessage;
 
 /**
@@ -83,7 +84,7 @@ public class AsyncHDFSWriteService {
    * @param fileName
    *          The HDFS path to write the message to.
    */
-  public static void writeToHDFS(final GeneratedMessage message,
+  public static void writeToHDFS(final AbstractMessageLite message,
     final FileSystem fs, final String fileName) {
     HDFS_ASYNC_WRITE_SERVICE.submit(new Runnable() {
       @Override

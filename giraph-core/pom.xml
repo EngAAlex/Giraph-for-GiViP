@@ -563,8 +563,8 @@ under the License.
     </dependency>
 
     <dependency>
-    	<groupId>com.unipg</groupId>
-    	<artifactId>GiraphProfilerCommon</artifactId>
+    	<groupId>org.apache.giraph</groupId>
+    	<artifactId>giraph-profiler</artifactId>
     </dependency>
   </dependencies>
 </project>

@@ -1,0 +1,14 @@
+package Protobuf;
+
+option java_package = "com.unipg.profilercommon.protoutils";
+option java_outer_classname = "LatenciesProtoBook";
+
+message RecordedLatency {
+  required string ping_source = 1;
+  required string ping_target = 2;
+  required int64 latency_ms = 3;
+}
+
+message LatenciesBook {
+  repeated RecordedLatency recorded_latency = 1;
+}
