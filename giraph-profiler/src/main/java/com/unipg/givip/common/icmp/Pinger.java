@@ -5,7 +5,7 @@ import org.icmp4j.IcmpPingUtil;
 
 public class Pinger {
 
-	final static int timeout = 1000;
+	final static int timeout = 2000;
 	
 	public static long pingHostName(String hostname) {
 		IcmpPingRequest request = IcmpPingUtil.createIcmpPingRequest();

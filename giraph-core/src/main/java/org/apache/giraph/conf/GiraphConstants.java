@@ -1164,6 +1164,14 @@ public interface GiraphConstants {
       new IntConfOption("giraph.async.message.store.threads", 0,
           "Number of threads to be used in async message store.");
 
-
+  /** Whether or not to enable latency profiling */
+  BooleanConfOption ENABLE_LATENCY_PROFILING =
+      new BooleanConfOption("giraph.profiler.enable_latency", true,
+          "Whether or not to enable latency profiling.");
+  
+  /** How often to scan for latency profiling */
+  IntConfOption LATENCY_PROFILING_INTERVAL =
+      new IntConfOption("giraph.profiler.latency_interval", 10,
+          "How often to scan for latency profiling.");
 }
 // CHECKSTYLE: resume InterfaceIsTypeCheck

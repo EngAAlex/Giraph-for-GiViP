@@ -447,8 +447,8 @@ under the License.
     	<artifactId>giraph-core</artifactId>
     </dependency>
     <dependency>
-    	<groupId>com.unipg</groupId>
-    	<artifactId>givip-common</artifactId>
+    	<groupId>org.apache.giraph</groupId>
+    	<artifactId>giraph-profiler</artifactId>
     </dependency>
   </dependencies>
 </project>

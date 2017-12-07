@@ -19,18 +19,17 @@ public class Copier {
 	
 //	Configuration conf;
 
-  public static void copyFromLocalToHDFS(Configuration conf, String localSrc,String jobId) throws IllegalArgumentException, IOException{
+  public static void copyFromLocalToHDFS(Configuration conf, String localSrc, String folder, String jobId) throws IllegalArgumentException, IOException{
 
     FileSystem fs = null;
     String dst = "";
 
     try {
       fs = FileSystem.get(conf);
-//      dst = "/";
       dst = fs.getHomeDirectory()+ Path.SEPARATOR 
           +"profiler" + Path.SEPARATOR 
-          + jobId + Path.SEPARATOR;
-//          + "WorkerData" + Path.SEPARATOR;
+          + jobId + Path.SEPARATOR
+          + folder;
       FileSystem.mkdirs(fs, new Path(dst), FsPermission.getDefault());
     } catch (IOException e) {
       e.printStackTrace();
@@ -38,10 +37,10 @@ public class Copier {
         
     try {
       if(fs != null){
-      fs.copyFromLocalFile(false, new Path(localSrc), new Path(dst));
+    	  fs.copyFromLocalFile(true, new Path(localSrc), new Path(dst));
       }
     } catch (IOException  e) {
-      e.printStackTrace();
+    	e.printStackTrace();
     }
   }
   

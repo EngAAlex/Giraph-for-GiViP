@@ -1278,4 +1278,12 @@ public class ImmutableClassesGiraphConfiguration<I extends WritableComparable,
       return null;
     }
   }
+  
+  public boolean isLatencyProfilingEnabled() {
+	  return GiraphConstants.ENABLE_LATENCY_PROFILING.get(this);
+  } 
+  
+  public int getLatencyProfilingInterval() {
+	  return GiraphConstants.LATENCY_PROFILING_INTERVAL.get(this);
+  }
 }
