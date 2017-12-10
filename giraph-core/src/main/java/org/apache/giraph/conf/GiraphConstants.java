@@ -1166,12 +1166,12 @@ public interface GiraphConstants {
 
   /** Whether or not to enable latency profiling */
   BooleanConfOption ENABLE_LATENCY_PROFILING =
-      new BooleanConfOption("giraph.profiler.enable_latency", true,
+      new BooleanConfOption("giraph.profiler.latency", true,
           "Whether or not to enable latency profiling.");
   
   /** How often to scan for latency profiling */
   IntConfOption LATENCY_PROFILING_INTERVAL =
-      new IntConfOption("giraph.profiler.latency_interval", 10,
+      new IntConfOption("giraph.profiler.latency.interval", 10,
           "How often to scan for latency profiling.");
 }
 // CHECKSTYLE: resume InterfaceIsTypeCheck

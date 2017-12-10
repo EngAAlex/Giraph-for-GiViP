@@ -927,15 +927,15 @@ ResetSuperstepMetricsObserver {
 			localVertices += partitionStats.getVertexCount();     
 		}
 
-		if(getConfiguration().isLatencyProfilingEnabled() && getSuperstep()%getConfiguration().getLatencyProfilingInterval() == 0) {
+		if(getConfiguration().isLatencyProfilingEnabled() && (getConfiguration().getLatencyProfilingInterval() == 0 || getSuperstep()%getConfiguration().getLatencyProfilingInterval() == 0)) {
 			this.lWrapper.updateSuperstep(this.getSuperstep());
-			LOG.info("Profiling Latency at superstep " + getSuperstep());
+//			LOG.info("Profiling Latency at superstep " + getSuperstep());
 			for (PartitionOwner currentOwner : getPartitionOwners()) {
 				String currentHostname = currentOwner.getWorkerInfo().getHostname();
-				if(thisHostName.equals(currentHostname)) {
+//				if(thisHostName.equals(currentHostname)) {
 //					LOG.info("Same hostname detected");
-					continue;
-				} else {
+//				continue;
+//				} else {
 					try {
 						long ping = Pinger.pingHostName(currentHostname);
 						//LOG.info("Registering ping " + ping + " for " + currentHostname);
@@ -945,7 +945,7 @@ ResetSuperstepMetricsObserver {
 					}catch(IOException ioe){
 						ioe.printStackTrace();
 					}
-				}
+//				}
 			}
 
 			this.lWrapper.localWrite();

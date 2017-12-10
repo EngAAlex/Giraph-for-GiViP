@@ -60,7 +60,7 @@ public class LatenciesWrapper extends Writer{
 	}
 
 	public AbstractMessageLite generateRecordToWrite(){
-		return this.recordedLatency.build();
+		return this.latenciesBook.build();
 	}
 
 	public String generateFullPath(){
