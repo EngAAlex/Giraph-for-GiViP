@@ -135,6 +135,10 @@ public class RandomWalkWorkerContext extends WorkerContext {
         getContext().setStatus(
             "Could not load local cache files: " + sourceFile);
         LOG.error("Could not load local cache files: " + sourceFile, e);
+      } catch (NumberFormatException nfe) {
+          getContext().setStatus(
+                  "Could not load local cache files: " + sourceFile);
+              LOG.error("Could not load local cache files: " + sourceFile, nfe);    	  
       }
     }
     return builder.build();
