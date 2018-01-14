@@ -10,13 +10,15 @@ import com.unipg.givip.common.protoutils.ExecutedSuperstepWorkerInfoProto.ExecSu
 import java.io.IOException;
 
 import org.apache.giraph.worker.WorkerInfo;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.icmp4j.logger.Logger;
 /**
  * @author maria
  *
  */
 public class ExecutedSuperstepWorkerInfo extends Writer {
-
+		
   private String directory = "profiler";
   private String fileName = "ExecutedSuperstepWorkerInfo";
   public String jobId = null;  
@@ -30,7 +32,8 @@ public class ExecutedSuperstepWorkerInfo extends Writer {
   /**
    * @throws
    */  
-  public ExecutedSuperstepWorkerInfo(WorkerInfo worker,String jobId){
+  public ExecutedSuperstepWorkerInfo(Configuration conf, WorkerInfo worker,String jobId){
+	super(conf);
     this.jobId = jobId;
     this.worker = worker;
     this.infoBuilder = ExecutedSuperstepWorkerInfoProto.ExecSuperstepWorkerInfo.newBuilder();

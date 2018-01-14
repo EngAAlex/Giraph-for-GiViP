@@ -3,6 +3,7 @@ package org.apache.giraph.givip.profiler;
 import java.io.IOException;
 
 import org.apache.giraph.worker.WorkerInfo;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 
 import com.google.protobuf.GeneratedMessage;
@@ -27,8 +28,8 @@ public class MessagesSniffer extends Writer{
   /**
    * @throws
    */
-  public MessagesSniffer(WorkerInfo worker, String jobId) {
-    super();
+  public MessagesSniffer(Configuration conf, WorkerInfo worker, String jobId) {
+    super(conf);
     this.jobId = jobId;
     this.worker = worker;
     this.messagesBook = MessagesBook.newBuilder();

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 
 import org.apache.giraph.worker.WorkerInfo;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 
 import com.google.protobuf.AbstractMessageLite;
@@ -29,8 +30,8 @@ public class LatenciesWrapper extends Writer{
 	/**
 	 * @throws
 	 */
-	public LatenciesWrapper(WorkerInfo worker, String jobId) {
-		super();
+	public LatenciesWrapper(Configuration conf, WorkerInfo worker, String jobId) {
+		super(conf);
 		this.jobId = jobId;
 		this.worker = worker;
 		this.latenciesBook = LatenciesBook.newBuilder();

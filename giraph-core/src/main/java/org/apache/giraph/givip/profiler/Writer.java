@@ -26,9 +26,9 @@ public abstract class Writer {
 	protected FileSystem fileSystem = null;
 	private String HDFSMainPath = "ProfilerCopier/";
 
-	public Writer(){
+	public Writer(Configuration conf){
 		try {
-			fileSystem = FileSystem.get(new Configuration());
+			fileSystem = FileSystem.get(conf);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

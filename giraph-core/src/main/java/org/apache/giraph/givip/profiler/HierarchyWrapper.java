@@ -6,6 +6,7 @@ package org.apache.giraph.givip.profiler;
 import java.util.HashSet;
 
 import org.apache.giraph.worker.WorkerInfo;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.net.Node;
 
@@ -27,8 +28,8 @@ public class HierarchyWrapper extends Writer{
   
   private HashSet<String> hostnames; 
 
-  public HierarchyWrapper(String jobId){
-    super();
+  public HierarchyWrapper(Configuration conf){
+    super(conf);
 //    try {
 //      this.fileSystem = FileSystem.get(new Configuration());
 //    } catch (IOException e) {
@@ -37,7 +38,7 @@ public class HierarchyWrapper extends Writer{
 //    }
     this.workerHierarchyBook = WorkerHierarchy.newBuilder();
     this.singleWorkerHierarchyBuilder = SingleWorkerTreeHierarchy.newBuilder();
-    this.jobId = jobId;
+    this.jobId = conf.get("mapred.job.id", "Unknown Job");
     this.hostnames = new HashSet<String>();
     
   }

@@ -1166,7 +1166,7 @@ public interface GiraphConstants {
 
   /** Whether or not to enable latency profiling */
   BooleanConfOption ENABLE_LATENCY_PROFILING =
-      new BooleanConfOption("giraph.profiler.latency", true,
+      new BooleanConfOption("giraph.profiler.latency", false,
           "Whether or not to enable latency profiling.");
   
   /** How often to scan for latency profiling */

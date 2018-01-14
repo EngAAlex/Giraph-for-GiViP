@@ -178,6 +178,12 @@ under the License.
          <td>Netty simulate a first response failed</td>
        </tr>
        <tr>
+         <td>giraph.profiler.latency</td>
+         <td>boolean</td>
+         <td>false</td>
+         <td>Whether or not to enable latency profiling.</td>
+       </tr>
+       <tr>
          <td>giraph.pure.yarn.job</td>
          <td>boolean</td>
          <td>false</td>
@@ -770,6 +776,12 @@ under the License.
          <td>integer</td>
          <td>1</td>
          <td>Minimum stragglers of the superstep before printing them out</td>
+       </tr>
+       <tr>
+         <td>giraph.profiler.latency.interval</td>
+         <td>integer</td>
+         <td>10</td>
+         <td>How often to scan for latency profiling.</td>
        </tr>
        <tr>
          <td>giraph.serverReceiveBufferSize</td>

@@ -4,6 +4,7 @@
 package org.apache.giraph.givip.profiler;
 
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 
 import com.google.protobuf.GeneratedMessage;
@@ -22,9 +23,9 @@ public class SuperstepInfoCatcher extends Writer{
   private String fileName = "SuperstepsTimes";
   private String jobId;
 
-  public SuperstepInfoCatcher (String jobId){ 
-    super();
-    this.jobId = jobId;
+  public SuperstepInfoCatcher (Configuration conf){ 
+    super(conf);
+    this.jobId = conf.get("mapred.job.id", "Unknown Job");
     this.jobSuperstepsInfoBuilder = SuperstepsInfo.newBuilder();
     this.superstepBuilder = Superstep.newBuilder();
   }

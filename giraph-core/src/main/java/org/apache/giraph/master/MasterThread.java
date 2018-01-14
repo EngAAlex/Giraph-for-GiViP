@@ -26,7 +26,6 @@ import org.apache.giraph.counters.GiraphTimers;
 import org.apache.giraph.graph.Computation;
 import org.apache.giraph.metrics.GiraphMetrics;
 import org.apache.giraph.givip.profiler.HierarchyWrapper;
-import org.apache.giraph.givip.profiler.LatenciesWrapper;
 import org.apache.giraph.givip.profiler.SuperstepInfoCatcher;
 import org.apache.giraph.worker.WorkerInfo;
 import org.apache.hadoop.io.Writable;
@@ -126,7 +125,7 @@ E extends Writable> extends Thread {
 				workers = bspServiceMaster.checkWorkers();
 				Node node = null;
 				hWrapper = new HierarchyWrapper(
-						bspServiceMaster.getMasterCompute().getConf().get("mapred.job.id", "Unknown Job"));
+						bspServiceMaster.getMasterCompute().getConf());
 
 				for(WorkerInfo worker: workers){
 					node = RackResolver.resolve(this.bspServiceMaster.getMasterCompute().getConf(),worker.getHostname());
@@ -198,7 +197,7 @@ E extends Writable> extends Thread {
 				}
 
 				//        LOG.info("mariaDebuggingLogs : Get and save information about supersteps");
-				SuperstepInfoCatcher sCatcher = new SuperstepInfoCatcher(bspServiceMaster.getMasterCompute().getConf().get("mapred.job.id", "Unknown Job"));
+				SuperstepInfoCatcher sCatcher = new SuperstepInfoCatcher(bspServiceMaster.getMasterCompute().getConf());
 				for (Entry<Long, Double> entry : superstepSecsMap.entrySet()) {
 					sCatcher.addSuperstepInfo(entry.getKey(), entry.getValue()*1000.0d);
 					if (LOG.isInfoEnabled()) {

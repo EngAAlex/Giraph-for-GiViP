@@ -375,17 +375,18 @@ ResetSuperstepMetricsObserver {
 		folder = "WorkerData" + Path.SEPARATOR
 				+"MessagesData";
 		Copier.copyFromLocalToHDFS(getConf(), localFilePath, folder, jobId);
-		localFilePath = (System.getProperty("user.home") + Path.SEPARATOR 
-				+ "profiler" + Path.SEPARATOR 
-				+ this.serviceWorker.getMessagesSniffer().jobId + Path.SEPARATOR
-				+"WorkerData" + Path.SEPARATOR
-				+"LatenciesData" + Path.SEPARATOR 
-				+"WorkerN-"
-				+ this.serviceWorker.getWorkerInfo().getTaskId() + Path.SEPARATOR); 
-		folder = "WorkerData" + Path.SEPARATOR
-				+"LatenciesData";
-		Copier.copyFromLocalToHDFS(getConf(), localFilePath, folder, jobId);
-
+		if(serviceWorker.getWorkerContext().getConf().isLatencyProfilingEnabled()) {
+			localFilePath = (System.getProperty("user.home") + Path.SEPARATOR 
+					+ "profiler" + Path.SEPARATOR 
+					+ this.serviceWorker.getMessagesSniffer().jobId + Path.SEPARATOR
+					+"WorkerData" + Path.SEPARATOR
+					+"LatenciesData" + Path.SEPARATOR 
+					+"WorkerN-"
+					+ this.serviceWorker.getWorkerInfo().getTaskId() + Path.SEPARATOR); 
+			folder = "WorkerData" + Path.SEPARATOR
+					+"LatenciesData";
+			Copier.copyFromLocalToHDFS(getConf(), localFilePath, folder, jobId);
+		}
 		for (WorkerObserver obs : serviceWorker.getWorkerObservers()) {
 			obs.postApplication();
 			context.progress();

@@ -227,12 +227,6 @@ ResetSuperstepMetricsObserver {
 		workerInfo.setInetSocketAddress(workerServer.getMyAddress());
 		workerInfo.setTaskId(getTaskPartition());
 
-		//ADDED CODE
-		//Create MessageSniffer and ExecutedSuperstepWorkerInfo instances for this worker
-		this.messagesSniffer=new MessagesSniffer(workerInfo, this.getJobId());
-		this.superstepWorkerInfo = new ExecutedSuperstepWorkerInfo(workerInfo, this.getJobId());
-		this.lWrapper = new LatenciesWrapper(workerInfo, this.getJobId());
-
 		workerClient = new NettyWorkerClient<I, V, E>(context, conf, this,
 				graphTaskManager.createUncaughtExceptionHandler());
 
@@ -243,6 +237,12 @@ ResetSuperstepMetricsObserver {
 
 		workerContext = conf.createWorkerContext();
 		workerContext.setWorkerGlobalCommUsage(globalCommHandler);
+		
+		//ADDED CODE
+		//Create MessageSniffer and ExecutedSuperstepWorkerInfo instances for this worker
+		this.messagesSniffer=new MessagesSniffer(workerContext.getConf(), workerInfo, this.getJobId());
+		this.superstepWorkerInfo = new ExecutedSuperstepWorkerInfo(workerContext.getConf(), workerInfo, this.getJobId());
+		this.lWrapper = new LatenciesWrapper(workerContext.getConf(), workerInfo, this.getJobId());
 
 		superstepOutput = conf.createSuperstepOutput(context);
 
